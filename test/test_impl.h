@@ -1,3 +1,4 @@
+#define PHNT_VERSION PHNT_WIN11
 #include "phnt.h"
 
 #pragma comment(lib, "ntdll.lib")
