@@ -28,9 +28,18 @@ jobs:
       with:
         arch: x64
 
-    - name: Test
+    - name: Test (add_subdirectory)
       run: |
         cmake -B build -S test -G Ninja
+        cmake --build build
+        echo Running test-c.exe
+        .\build\test-c.exe
+        echo Running test-cpp.exe
+        .\build\test-cpp.exe
+
+    - name: Test (find_package)
+      run: |
+        cmake -B build -S test -G Ninja -DPHNT_TEST_PACKAGE=ON
         cmake --build build
         echo Running test-c.exe
         .\build\test-c.exe
