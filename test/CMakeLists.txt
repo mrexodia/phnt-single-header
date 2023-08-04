@@ -7,6 +7,8 @@ endif()
 
 file(COPY "${phnt_HEADER}" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
 
+set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "")
+
 project(phnt-test)
 
 function(phnt_test target)

@@ -66,8 +66,8 @@ def main():
     os.makedirs("out", exist_ok=True)
     with open("out/LICENSE", "w") as f:
         f.write(license)
-    out_path = os.path.join(os.getcwd(), "out", "phnt.h")
-    exec(f"\"{cpp_amalgamate}\" -d . phnt_windows.h phnt.h -o \"{out_path}\"", "systeminformer/phnt/include")
+    out_path = "out/phnt.h"
+    exec(f"\"{cpp_amalgamate}\" -d systeminformer/phnt/include phnt_amalgamate.h -o \"{out_path}\"")
     with open(out_path, "r") as f:
         header = f.read()
     with open(out_path, "w") as f:
