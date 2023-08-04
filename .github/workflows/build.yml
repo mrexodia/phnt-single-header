@@ -24,14 +24,18 @@ jobs:
         name: ${{ github.event.repository.name }}-${{ github.sha }}
         path: out/
 
+    - uses: TheMrMilchmann/setup-msvc-dev@b505cd82c5ee620766f109e9fc377c723376c877 # v2.0.1
+      with:
+        arch: x64
+
     - name: Test
       run: |
-        cmake -B build -S test
-        cmake --build build --config Release
+        cmake -B build -S test -G Ninja
+        cmake --build build
         echo Running test-c.exe
-        .\build\Release\test-c.exe
+        .\build\test-c.exe
         echo Running test-cpp.exe
-        .\build\Release\test-cpp.exe
+        .\build\test-cpp.exe
 
     - name: Compress artifacts
       uses: vimtor/action-zip@26a249fb00d43ca98dad77a4b3838025fc226aa1 # v1.1
