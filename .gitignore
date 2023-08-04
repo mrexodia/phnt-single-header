@@ -1,4 +1,5 @@
 /out/*
+!/out/CMakeLists.txt
 /cpp-amalgamate.exe
 build*/
 /test/phnt.h

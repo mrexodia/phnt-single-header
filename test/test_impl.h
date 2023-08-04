@@ -1,8 +1,6 @@
 #define PHNT_VERSION PHNT_WIN11
 #include "phnt.h"
 
-#pragma comment(lib, "ntdll.lib")
-
 #ifdef __cplusplus
 static char message[] = "Hello from phnt in C++\r\n";
 #else

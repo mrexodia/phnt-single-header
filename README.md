@@ -37,6 +37,40 @@ int main()
 
 [`phnt.h`](https://github.com/mrexodia/phnt-single-header/releases/latest/download/phnt.h) (direct link to the [latest release](https://github.com/mrexodia/phnt-single-header/releases/latest)).
 
+## CMake
+
+To quickly use this library from CMake, use [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html):
+
+```cmake
+# Download phnt and include
+include(FetchContent)
+set(phnt_TAG "v1.0-19b15cc")
+message(STATUS "Fetching phnt (${phnt_TAG})...")
+FetchContent_Declare(phnt
+    URL "https://github.com/mrexodia/phnt-single-header/releases/download/${phnt_TAG}/phnt.zip"
+)
+FetchContent_MakeAvailable(phnt)
+
+# Create target and link to phnt
+add_executable(my-tool)
+target_link_libraries(my-tool PRIVATE phnt::phnt)
+```
+
+Alternatively, extract [`phnt.zip`](https://github.com/mrexodia/phnt-single-header/releases/latest/download/phnt.zip) to the `third_party/phnt` in your project and do:
+
+```cmake
+# Include phnt
+add_subdirectory(third_party/phnt)
+
+# Create target and link to phnt
+add_executable(my-tool)
+target_link_libraries(my-tool PRIVATE phnt::phnt)
+```
+
+The target `phnt::phnt` also links to `ntdll.lib`. If you want to avoid this you can link to `phnt::headers` instead.
+
+<sub>_Note_: The CMake project in `phnt.zip` also works as a CMake package. After configuring and installing it, you can do `find_package(phnt REQUIRED)` and everything should work out of the box.</sub>
+
 ## Older SDKs
 
 To use phnt with older SDK versions, change the `PHNT_VERSION` to one of the following:

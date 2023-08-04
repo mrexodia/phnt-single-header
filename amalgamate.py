@@ -28,8 +28,11 @@ def sha256(file_path):
     return hash.hexdigest()
 
 def main():
+    # Sanity checks
     if not sys.platform.startswith("win"):
         raise Exception("This script only works on Windows...")
+    if not os.path.exists(".git"):
+        raise Exception("Clone this repository with git to use it...")
 
     # Get the current System Informer commit hash
     if not os.path.exists("systeminformer"):
