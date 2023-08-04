@@ -42,29 +42,27 @@ int main()
 To quickly use this library from CMake, use [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html):
 
 ```cmake
-# Download phnt and include
+cmake_minimum_required(VERSION 3.24)
+cmake_policy(SET CMP0135 NEW)
+project(phnt-example)
+
 include(FetchContent)
-set(phnt_TAG "v1.0-19b15cc")
+set(phnt_TAG "v1.1-19b15cc")
 message(STATUS "Fetching phnt (${phnt_TAG})...")
 FetchContent_Declare(phnt
     URL "https://github.com/mrexodia/phnt-single-header/releases/download/${phnt_TAG}/phnt.zip"
+    URL_HASH "SHA256=ccd3cbc27c83b2870f6c8d2b72d47cc75a38fc7bb57b11fc9677a9ec46710e10"
 )
 FetchContent_MakeAvailable(phnt)
 
-# Create target and link to phnt
-add_executable(my-tool)
-target_link_libraries(my-tool PRIVATE phnt::phnt)
+add_executable(example main.cpp)
+target_link_libraries(example PRIVATE phnt::phnt)
 ```
 
-Alternatively, extract [`phnt.zip`](https://github.com/mrexodia/phnt-single-header/releases/latest/download/phnt.zip) to the `third_party/phnt` in your project and do:
+Instead of `FetchContent` you can also extract [`phnt.zip`](https://github.com/mrexodia/phnt-single-header/releases/latest/download/phnt.zip) to `third_party/phnt` in your project and do:
 
 ```cmake
-# Include phnt
 add_subdirectory(third_party/phnt)
-
-# Create target and link to phnt
-add_executable(my-tool)
-target_link_libraries(my-tool PRIVATE phnt::phnt)
 ```
 
 The target `phnt::phnt` also links to `ntdll.lib`. If you want to avoid this you can link to `phnt::headers` instead.
