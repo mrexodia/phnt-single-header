@@ -1,0 +1,52 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    # Skip building pull requests from the same repository
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository) }}
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Amalgamate headers
+      run: python amalgamate.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ github.event.repository.name }}-${{ github.sha }}
+        path: out/
+
+    - name: Test
+      run: |
+        cmake -B build -S test
+        cmake --build build --config Release
+        echo Running test-c.exe
+        .\build\Release\test-c.exe
+        echo Running test-cpp.exe
+        .\build\Release\test-cpp.exe
+
+    - name: Compress artifacts
+      uses: vimtor/action-zip@26a249fb00d43ca98dad77a4b3838025fc226aa1 # v1.1
+      if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      with:
+        files: out/
+        dest: phnt.zip
+
+    - name: Release
+      uses: softprops/action-gh-release@c9b46fe7aad9f02afd89b12450b780f52dacfb2d # master 2023-08-04
+      if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      with:
+        files: |
+          out/phnt.h
+          phnt.zip
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

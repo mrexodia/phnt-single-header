@@ -1,6 +1,5 @@
 import os
 import sys
-import shutil
 import hashlib
 import subprocess
 import urllib.request
@@ -31,6 +30,8 @@ def sha256(file_path):
 def main():
     if not sys.platform.startswith("win"):
         raise Exception("This script only works on Windows...")
+
+    # Get the current System Informer commit hash
     if not os.path.exists("systeminformer"):
         exec("git submodule update --init")
     commit = subprocess.run(
@@ -43,11 +44,8 @@ def main():
     if commit.returncode != 0:
         raise Exception(f"Failed to get commit hash, exit code {commit.returncode}")
     commit_hash = commit.stdout.strip()
-    license_file = "systeminformer/LICENSE.txt"
-    if not os.path.exists(license_file):
-        raise Exception(f"License file not found: {license_file}")
-    with open(license_file, "r") as f:
-        license = f.read().strip()
+
+    # Download cpp-amalgamate
     cpp_amalgamate = os.path.join(os.getcwd(), "cpp-amalgamate.exe")
     if not os.path.exists(cpp_amalgamate):
         print(f"Downloading cpp-amalgamate...")
@@ -56,7 +54,18 @@ def main():
     expected_hash = "cdb689a610b67f267a1b28733f975431083150f6cd01adfd5914f989508b0522"
     if actual_hash != expected_hash:
         raise Exception(f"cpp-amalgamate.exe hash mismatch (actual: {actual_hash}, expected: {expected_hash})")
+
+    # Extract System Informer license
+    license_file = "systeminformer/LICENSE.txt"
+    if not os.path.exists(license_file):
+        raise Exception(f"License file not found: {license_file}")
+    with open(license_file, "r") as f:
+        license = f.read().strip()
+
+    # Create output folder
     os.makedirs("out", exist_ok=True)
+    with open("out/LICENSE", "w") as f:
+        f.write(license)
     out_path = os.path.join(os.getcwd(), "out", "phnt.h")
     exec(f"\"{cpp_amalgamate}\" -d . phnt_windows.h phnt.h -o \"{out_path}\"", "systeminformer/phnt/include")
     with open(out_path, "r") as f:
