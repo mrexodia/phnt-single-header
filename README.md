@@ -35,7 +35,7 @@ int main()
 
 ## Download
 
-You can download `phnt.h` from the [latest release](https://github.com/mrexodia/phnt-single-header/releases/latest).
+[`phnt.h`](https://github.com/mrexodia/phnt-single-header/releases/latest/download/phnt.h) (direct link to the [latest release](https://github.com/mrexodia/phnt-single-header/releases/latest)).
 
 ## Older SDKs
 
