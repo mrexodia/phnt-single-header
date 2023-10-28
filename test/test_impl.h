@@ -17,7 +17,7 @@ extern int EntryPoint(PPEB peb)
         NULL,
         &IoStatusBlock,
         message,
-        strlen(message) - 1,
+        sizeof(message) - 1,
         NULL,
         NULL
     );

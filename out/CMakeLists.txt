@@ -11,12 +11,18 @@ endif()
 
 project(phnt VERSION 3.0)
 
-add_library(phnt_headers INTERFACE)
-add_library(${PROJECT_NAME}::headers ALIAS phnt_headers)
-target_include_directories(phnt_headers SYSTEM INTERFACE
+if(PROJECT_IS_TOP_LEVEL)
+    set(tgt_headers headers)
+else()
+    set(tgt_headers phnt_headers)
+endif()
+
+add_library(${tgt_headers} INTERFACE)
+add_library(${PROJECT_NAME}::headers ALIAS ${tgt_headers})
+target_include_directories(${tgt_headers} SYSTEM INTERFACE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
 )
-target_include_directories(phnt_headers INTERFACE
+target_include_directories(${tgt_headers} INTERFACE
     $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>
 )
 
@@ -36,7 +42,7 @@ if(PROJECT_IS_TOP_LEVEL)
     install(
         TARGETS
             phnt
-            phnt_headers
+            ${tgt_headers}
         EXPORT
             ${PROJECT_NAME}_Targets
         ARCHIVE
