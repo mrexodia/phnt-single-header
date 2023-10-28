@@ -39,12 +39,12 @@ jobs:
 
     - name: Test (find_package)
       run: |
-        cmake -B build -S test -G Ninja -DPHNT_TEST_PACKAGE=ON
-        cmake --build build
+        cmake -B build-pkg -S test -G Ninja -DPHNT_TEST_PACKAGE=ON
+        cmake --build build-pkg
         echo Running test-c.exe
-        .\build\test-c.exe
+        .\build-pkg\test-c.exe
         echo Running test-cpp.exe
-        .\build\test-cpp.exe
+        .\build-pkg\test-cpp.exe
 
     - name: Compress artifacts
       uses: vimtor/action-zip@26a249fb00d43ca98dad77a4b3838025fc226aa1 # v1.1

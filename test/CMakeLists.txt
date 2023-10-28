@@ -18,6 +18,8 @@ endif()
 
 option(PHNT_TEST_PACKAGE "Test package mode" OFF)
 
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 project(phnt-test)
 
 if(PHNT_TEST_PACKAGE)
@@ -52,5 +54,11 @@ function(phnt_test target)
     target_link_options(${target} PRIVATE "/ENTRY:EntryPoint")
 endfunction()
 
+# User mode tests
 phnt_test(test-c test.c)
 phnt_test(test-cpp test.cpp)
+
+# Kernel mode test
+find_package(WDK REQUIRED)
+wdk_add_driver(test-driver driver.cpp)
+target_link_libraries(test-driver PRIVATE phnt::headers)
