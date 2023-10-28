@@ -47,7 +47,7 @@ cmake_policy(SET CMP0135 NEW)
 project(phnt-example)
 
 include(FetchContent)
-set(phnt_TAG "v1.1-19b15cc")
+set(phnt_TAG "v1.2-4d1b102f")
 message(STATUS "Fetching phnt (${phnt_TAG})...")
 FetchContent_Declare(phnt
     URL "https://github.com/mrexodia/phnt-single-header/releases/download/${phnt_TAG}/phnt.zip"
