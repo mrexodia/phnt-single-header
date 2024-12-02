@@ -8,6 +8,7 @@ extern "C"
 #include <ntimage.h>
 #include <wdm.h>
 #include <stddef.h>
+#include <minwindef.h>
 }
 
 #define PHNT_VERSION PHNT_WIN11
