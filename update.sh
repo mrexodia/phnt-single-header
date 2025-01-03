@@ -1,12 +1,14 @@
 #!/bin/bash
 pushd systeminformer
 git fetch
-git diff --exit-code HEAD origin/master -- phnt > /dev/null 2>&1
+echo "\`\`\`diff" > ../pr-body.md
+git diff --exit-code HEAD origin/master -- phnt >> ../pr-body.md
 if [ $? -eq 0 ]; then
   echo "[INFO] No changes to commit"
   popd
   exit 0
 fi
+echo "\`\`\`" >> ../pr-body.md
 
 NEW_HASH=$(git rev-parse --short origin/master)
 echo "[INFO] Bumping systeminformer to $NEW_HASH"
@@ -26,4 +28,4 @@ git config user.name "github-actions[bot]"
 git checkout -b bump-$NEW_HASH
 git commit -am "Bump systeminformer to $NEW_HASH"
 git push --set-upstream origin bump-$NEW_HASH
-gh pr create --fill
+gh pr create --title "Bump systeminformer to $NEW_HASH" --body-file pr-body.md
