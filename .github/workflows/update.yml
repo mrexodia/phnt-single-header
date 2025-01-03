@@ -6,9 +6,7 @@ on:
     - cron: '0 15 * * 5'
 
 permissions:
-  contents: write
   pull-requests: write
-  actions: write
 
 jobs:
   update:
@@ -19,6 +17,7 @@ jobs:
       with:
         submodules: true
         fetch-depth: 0
+        ssh-key: ${{ secrets.UPDATE_SSH_KEY }}
 
     - name: Bump the systeminformer version
       run: ./update.sh
