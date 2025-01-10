@@ -8,6 +8,7 @@ if [ $? -eq 0 ]; then
   popd
   exit 0
 fi
+truncate -s 65450 ../pr-body.md
 echo "\`\`\`" >> ../pr-body.md
 
 NEW_HASH=$(git rev-parse --short origin/master)
