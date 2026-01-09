@@ -40,6 +40,17 @@ get_filename_component(WDK_ROOT
     "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows Kits\\Installed Roots;KitsRoot10]"
     ABSOLUTE)
 
+message(STATUS "KitsRoot10 from registry: ${WDK_ROOT}")
+file(GLOB WDK_DIRS "${WDK_ROOT}/Include/*")
+foreach(dir ${WDK_DIRS})
+    message(STATUS "  Found dir: ${dir}")
+    file(GLOB DIR_FILES "${dir}/*")
+    foreach(file ${DIR_FILES})
+        message(STATUS "    Found file: ${file}")
+    endforeach()
+endforeach()
+
+
 # Find all ntdkk.h files, then sort for the latest.
 file(GLOB WDK_NTDDK_FILES ${WDK_ROOT}/Include/*/km/ntddk.h)
 

@@ -1,7 +1,7 @@
 # NOTE: This code is hacky because it's used for tests.
 # If you are looking for an example, check the README.
 
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.15...4.0)
 
 # Check that amalgamate.py was run
 set(phnt_DIR "${CMAKE_SOURCE_DIR}/../out")
@@ -60,6 +60,9 @@ phnt_test(test-c test.c)
 phnt_test(test-cpp test.cpp)
 
 # Kernel mode test
-find_package(WDK REQUIRED)
-wdk_add_driver(test-driver driver.cpp)
-target_link_libraries(test-driver PRIVATE phnt::headers)
+option(PHNT_TEST_DRIVER "Build test driver" OFF)
+if(PHNT_TEST_DRIVER)
+    find_package(WDK REQUIRED)
+    wdk_add_driver(test-driver driver.cpp)
+    target_link_libraries(test-driver PRIVATE phnt::headers)
+endif()
