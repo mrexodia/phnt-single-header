@@ -73,6 +73,10 @@ def main():
     exec(f"\"{cpp_amalgamate}\" -d systeminformer/phnt/include phnt_amalgamate.h -o \"{out_path}\"")
     with open(out_path, "r") as f:
         header = f.read()
+    header = header.replace(
+        "#if __has_include (",
+        "#if 1 // __has_include ("
+    )
     with open(out_path, "w") as f:
         f.write("/*\n\n")
         f.write("+===========================================================+\n")
